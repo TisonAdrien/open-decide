@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Open Decide — Visual editor</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.9/standalone/umd/vis-network.min.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Open Decide — Visual editor</h1>
+    <p>Drag nodes to lay out the tree. Double-click a node to edit it. The JSON on the right is the source of truth. <a href="/">Back to runner &rarr;</a></p>
+  </header>
+
+  <main class="editor-layout">
+    <section class="panel canvas-panel">
+      <div id="graph" class="graph"></div>
+      <div class="row">
+        <button id="add-node" type="button">Add decision node</button>
+        <button id="add-terminal" type="button">Add terminal</button>
+        <button id="auto-layout" type="button">Auto layout</button>
+      </div>
+    </section>
+
+    <section class="panel json-panel">
+      <h2>Tree (JSON)</h2>
+      <textarea id="tree" spellcheck="false" rows="30"></textarea>
+      <div class="row">
+        <button id="apply" type="button">Apply JSON to canvas</button>
+        <button id="load-example" type="button">Load example</button>
+        <span id="status" class="status"></span>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/editor.js"></script>
+</body>
+</html>

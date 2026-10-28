@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Open Decide</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Open Decide</h1>
+    <p>No-code decision trees powered by fast decision models. <a href="/editor">Open visual editor &rarr;</a></p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Tree (JSON)</h2>
+      <div class="row">
+        <button id="load-example" type="button">Load example</button>
+        <span id="tree-status" class="status"></span>
+      </div>
+      <textarea id="tree" spellcheck="false" rows="20"></textarea>
+    </section>
+
+    <section class="panel">
+      <h2>Input</h2>
+      <textarea id="input" rows="5" placeholder="Paste a message, a ticket, or any text..."></textarea>
+      <div class="row">
+        <label>Backend <select id="backend"></select></label>
+        <label>Max steps <input id="max-steps" type="number" value="200" min="1" /></label>
+        <button id="run" type="button">Run</button>
+      </div>
+      <div class="row">
+        <label>Or upload a file (PDF, image, text)
+          <input id="file" type="file" accept=".pdf,.png,.jpg,.jpeg,.tif,.tiff,.bmp,.webp,.txt,.md" />
+        </label>
+        <button id="run-file" type="button">Ingest &amp; Run</button>
+      </div>
+    </section>
+
+    <section class="panel" style="grid-column: 1 / -1;">
+      <h2>Result</h2>
+      <div id="result" class="result">No run yet.</div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

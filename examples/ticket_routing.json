@@ -1,0 +1,59 @@
+{
+  "id": "ticket_routing",
+  "name": "Ticket routing",
+  "version": "0.1.0",
+  "description": "Route an inbound support ticket to the right team.",
+  "root": "triage",
+  "nodes": {
+    "triage": {
+      "id": "triage",
+      "type": "decision",
+      "question_type": "choice",
+      "prompt": "What kind of request is this?",
+      "options": [
+        { "label": "billing", "next": "billing_urgency" },
+        { "label": "technical", "next": "technical_terminal" },
+        { "label": "commercial", "next": "commercial_terminal" }
+      ],
+      "confidence_threshold": 0.4,
+      "fallback": "manual_review"
+    },
+    "billing_urgency": {
+      "id": "billing_urgency",
+      "type": "decision",
+      "question_type": "noul",
+      "prompt": "Is this a blocked account or a payment failure?",
+      "options": [
+        { "label": "yes", "next": "billing_urgent" },
+        { "label": "no", "next": "billing_normal" }
+      ],
+      "confidence_threshold": 0.5,
+      "fallback": "manual_review"
+    },
+    "billing_urgent": {
+      "id": "billing_urgent",
+      "type": "terminal",
+      "result": "billing_urgent_queue"
+    },
+    "billing_normal": {
+      "id": "billing_normal",
+      "type": "terminal",
+      "result": "billing_standard_queue"
+    },
+    "technical_terminal": {
+      "id": "technical_terminal",
+      "type": "terminal",
+      "result": "technical_queue"
+    },
+    "commercial_terminal": {
+      "id": "commercial_terminal",
+      "type": "terminal",
+      "result": "commercial_queue"
+    },
+    "manual_review": {
+      "id": "manual_review",
+      "type": "terminal",
+      "result": "manual_review"
+    }
+  }
+}

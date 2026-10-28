@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Quality (lint, format, types, tests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install
+        run: uv sync --locked --extra dev --extra ingest
+      - name: Lint
+        run: uv run --extra dev --extra ingest ruff check src tests
+      - name: Format check
+        run: uv run --extra dev --extra ingest ruff format --check src tests
+      - name: Type check
+        run: uv run --extra dev --extra ingest mypy src
+      - name: Test
+        run: uv run --extra dev --extra ingest pytest -q
+
+  tests:
+    name: Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install Python
+        run: uv python install ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: uv sync --locked --extra dev --extra ingest --python ${{ matrix.python-version }}
+      - name: Test
+        run: uv run --extra dev --extra ingest pytest -q
